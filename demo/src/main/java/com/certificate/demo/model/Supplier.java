@@ -1,11 +1,16 @@
 package com.certificate.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Getter
 @Setter
@@ -14,7 +19,7 @@ public class Supplier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     @Column(name = "supplier_name")
     private String name;
@@ -26,10 +31,8 @@ public class Supplier {
     private String city;
 
     @OneToMany(mappedBy = "supplier")
+    @JsonIgnore
     private Set<Cert> certificates;
-
-    public Supplier() {
-    }
 
     public Supplier(String name, Integer index, String city) {
         this.name = name;

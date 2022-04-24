@@ -1,10 +1,14 @@
 package com.certificate.demo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Getter
 @Setter
@@ -13,7 +17,7 @@ public class Cert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     @Column(name = "type")
     private String type;

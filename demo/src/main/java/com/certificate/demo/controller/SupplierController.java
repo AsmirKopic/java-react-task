@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class SupplierController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class SupplierController {
     }
 
     @GetMapping("/suppliers/{id}")
-    public ResponseEntity<Supplier> getSupplierById(@PathVariable(value = "id") Long supplierId) throws ResourceNotFoundException {
+    public ResponseEntity<Supplier> getSupplierById(@PathVariable(value = "id") Integer supplierId) throws ResourceNotFoundException {
 
         Supplier supplier = supplierRepository.findById(supplierId)
                 .orElseThrow(() -> new ResourceNotFoundException("Supplier not found for this id :: " + supplierId));
