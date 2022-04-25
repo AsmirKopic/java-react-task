@@ -10,9 +10,14 @@ const get = (id: any) => {
     return http.get<ISupplierData>(`/suppliers/${id}`);
 }
 
+const create = (data: ISupplierData) => {
+    return http.post<ISupplierData>("/suppliers", data);
+}
+
 const SupplierService = {
     getAll,
-    get
+    get,
+    create
 };
 
 export default SupplierService;

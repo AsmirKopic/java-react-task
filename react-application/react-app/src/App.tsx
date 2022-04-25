@@ -31,7 +31,7 @@ function App() {
         <Routes>
           
           <Route path="/suppliers" element={<SupplierList/>} />
-          
+          <Route path="/add" element={<AddCertificate/>} />
           {/* <Route path="/certificates" element={<CertificateList/>} />
           <Route path="/add" element={<AddCertificate/>} />
           <Route path="/tutorials/:id" element={<Certificate/>} /> */}
