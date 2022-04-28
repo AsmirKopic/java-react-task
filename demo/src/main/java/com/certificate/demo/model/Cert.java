@@ -22,7 +22,7 @@ public class Cert {
     @Column(name = "type")
     private String type;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 

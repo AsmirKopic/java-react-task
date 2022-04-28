@@ -6,6 +6,9 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import { Link, Route, Routes } from 'react-router-dom';
 import SupplierList from './components/SupplierList';
+import AddSupplier from './components/AddSupplier';
+import AddCertificate from './components/AddCertificate';
+import CertificateList from './components/CertificateList';
 
 function App() {
   return (
@@ -21,18 +24,33 @@ function App() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"#"} className="nav-link">
+            <Link to={"/add"} className="nav-link">
               Add
             </Link>
           </li>
+
+          <li className="nav-item">
+            <Link to={"/newCertificate"} className="nav-link">
+              New Certificate
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/certificates"} className="nav-link">
+              New Certificate
+            </Link>
+          </li>
+
         </div>
       </nav>
       <div className="container mt-3">
         <Routes>
           
           <Route path="/suppliers" element={<SupplierList/>} />
-          <Route path="/add" element={<AddCertificate/>} />
-          {/* <Route path="/certificates" element={<CertificateList/>} />
+          <Route path="/add" element={<AddSupplier/>} />
+          <Route path="/newCertificate" element={<AddCertificate/>} />
+          <Route path="/certificates" element={<CertificateList/>} />
+          
+          {/* 
           <Route path="/add" element={<AddCertificate/>} />
           <Route path="/tutorials/:id" element={<Certificate/>} /> */}
         </Routes>

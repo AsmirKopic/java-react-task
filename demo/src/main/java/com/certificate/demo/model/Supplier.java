@@ -30,7 +30,10 @@ public class Supplier {
     @Column(name = "city")
     private String city;
 
-    @OneToMany(mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier",
+            fetch = FetchType.LAZY,
+            cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+                      CascadeType.DETACH, CascadeType.REFRESH})
     @JsonIgnore
     private Set<Cert> certificates;
 

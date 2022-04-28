@@ -38,7 +38,7 @@ const SupplierList: React.FC = () => {
                             suppliers.map(
                                 supplier => (
                                     <tr key={supplier.id}>
-                                    <td> Edit btn </td>    
+                                    <td> {supplier.id} </td>    
                                     <td> { supplier.name }</td>
                                     <td> { supplier.index }</td>
                                     <td> { supplier.city }</td>

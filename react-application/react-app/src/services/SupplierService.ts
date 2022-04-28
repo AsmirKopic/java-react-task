@@ -3,15 +3,15 @@ import http from "../http-common";
 import ISupplierData from "../types/Supplier";
 
 const getAll = () => {
-    return http.get<Array<ISupplierData>>("/suppliers");
+    return http.get<Array<ISupplierData>>("/v1/suppliers");
 }
 
 const get = (id: any) => {
-    return http.get<ISupplierData>(`/suppliers/${id}`);
+    return http.get<ISupplierData>(`/v1/suppliers/${id}`);
 }
 
 const create = (data: ISupplierData) => {
-    return http.post<ISupplierData>("/suppliers", data);
+    return http.post<ISupplierData>("/v1/suppliers", data);
 }
 
 const SupplierService = {
