@@ -4,158 +4,146 @@ import ISupplierData from '../types/Supplier';
 import CertificateData from '../types/Certificate';
 import CertificateService from "../services/CertificateService";
 
-const AddCertificate: React.FC =() => {
+export default function AddCertificate() {
 
-    const supplier;
+  const [state, setState] = React.useState({
+    id: null,
+    supplier: "",
+    type: "",
+    validFrom: "",
+    validTo: ""
+  });
 
-    const initialCertificate = {
-        id: null,
-        supplier: null,
-        type: "",
-        validFrom: "",
-        validTo: ""
-    };
-
-    // testing
-    const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
-    useEffect(() => {
-        retrieveSuppliers();
-    }, []);
-
-    const retrieveSuppliers = () => {
-        SupplierService.getAll()
-        .then((response: any) => {
-            setSuppliers(response.data);
-            console.log(response.data);
-        })
-        .catch((e: Error) => {
-            console.log(e);
-        });
-    };
-
-    // end testing
-
-    const [certificate, setCertificate] = useState<CertificateData>(initialCertificate);
-    const [submitted, setSubmitted] = useState<boolean>(false);
-
-    const selectSupplier = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        this.supplier = event.target;
-        const { name, value } = event.target;
-        setSupplier({ ...this.supplier, [name]: value});
-      };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = event.target;
-      setCertificate({ ...certificate, [name]: value});
-    };
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
 
-    const saveCertificate = () => {
-      var data = {
-        supplier: certificate.supplier,
-        type: certificate.type,
-        validFrom: certificate.validFrom,
-        validTo: certificate.validTo
-      };
+  // retrieve suppliers
+  const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
+  useEffect(() => {
+      retrieveSuppliers();
+  }, []);
 
-      CertificateService.create(data)
-        .then((response: any) => {
-          setCertificate({
-            id: response.data.id,
-            supplier: response.data.supplier,
-            type: response.data.type,
-            validFrom: response.data.validFrom,
-            validTo: response.data.validTo
-          });
-          setSubmitted(true);
+  const retrieveSuppliers = () => {
+      SupplierService.getAll()
+      .then((response: any) => {
+          setSuppliers(response.data);
           console.log(response.data);
-        })
-        .catch((e: Error) => {
+      })
+      .catch((e: Error) => {
           console.log(e);
+      });
+  };
+
+  // save certificate
+
+  const saveCertificate = () => {
+    var data = {
+      supplier: state.supplier,
+      type: state.type,
+      validFrom: state.validFrom,
+      validTo: state.validTo
+    };
+
+    CertificateService.create(data)
+      .then((response: any) => {
+        setState({
+          id: response.data.id,
+          supplier: response.data.supplier,
+          type: response.data.type,
+          validFrom: response.data.validFrom,
+          validTo: response.data.validTo
         });
-    };
+        setSubmitted(true);
+        console.log(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
 
-    const newCertificate = () => {
-      setCertificate(initialCertificate);
-      setSubmitted(false);
-    };
 
-    return (
+  };
 
-        <div className="submit-form">
+  // handle input change
+
+  function handleChange(evt: any) {
+    const value =
+      evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
+    setState({
+      ...state,
+      [evt.target.name]: value
+    });
+  }
+
+  // HTML return 
+
+  return (
+    <div className="submit-form">
+
         {submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
-            <button className="btn btn-success" onClick={newCertificate}>
+            <button className="btn btn-success" onClick={saveCertificate}>
               Add
             </button>
           </div>
         ) : (
-          <div>
+      <div>
+      <form>
 
-            <div className="form-group">
-              <label htmlFor="supplier"></label>
-
-              <select onChange={selectSupplier}>
-                <option selected disabled>
-                Choose supplier
-                </option>
-                    { suppliers.map(tempSupplier => (
-                                <option key={tempSupplier.id} value={tempSupplier.id}>
+      <label>
+          <div className="heading">Select supplier</div>
+          <select name="supplier" onChange={handleChange} value={state.supplier}>
+          { suppliers.map(tempSupplier => (
+                                <option key={tempSupplier.id} value={tempSupplier.name}>
                                     {tempSupplier.name}
                                 </option>
                             )
                         )
-                    } 
-            </select>
-              
+          } 
+          </select>
+        </label>
 
-            </div>
+        <label>
+          <div className="heading">Certificate type</div>
+          <select name="type" onChange={handleChange} value={state.type}>
+            <option value="CCA Certificate">CCA Certificate</option>
+            <option value="ISO 9001">ISO 9001</option>
+            <option value="1AA Cert">1AA Cert</option>
+          </select>
+        </label>
 
+        <label>
+          <div className="heading">Valid from</div>
+          <input
+            type="date"
+            name="validFrom"
+            value={state.validFrom}
+            onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          <div className="heading">Valid to</div>
+          <input
+            type="date"
+            name="validTo"
+            value={state.validTo}
+            onChange={handleChange}
+          />
+        </label>
         
-            <div className="form-group">
-              <label htmlFor="type">Type</label>
-              <select>
-                <option selected disabled>
-                Choose one
-                </option >
-                <option value={certificate.type}>Test cert 1</option>
-                <option value="Test Cert 2">Test cert 2</option>
-            </select>
-            </div>
+      </form>
+      <pre>{JSON.stringify(state, null, 2)}</pre>
 
-            <div className="form-group">
-              <label htmlFor="validFrom">Valid from</label>
-              <input
-                type="date"
-                className="form-control"
-                id="validFrom"
-                required
-                value={certificate.validFrom}
-                onChange={handleInputChange}
-                name="validFrom"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="validFrom">Valid to</label>
-              <input
-                type="date"
-                className="form-control"
-                id="validTo"
-                required
-                value={certificate.validTo}
-                onChange={handleInputChange}
-                name="validTo"
-              />
-            </div>
-
-            <button onClick={saveCertificate} className="btn btn-success">
+      <button onClick={saveCertificate} className="btn btn-success">
               Submit
-            </button>
-          </div>
-        )}
+      </button>
       </div>
-    );
-};
+        )}
 
-  export default AddCertificate;
+
+    </div>
+  );
+}
+
+

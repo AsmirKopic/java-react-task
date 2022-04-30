@@ -40,11 +40,10 @@ const CertificateList: React.FC = () => {
                             certificates.map(
                                 tempCert => (
                                     <tr key={tempCert.id}>
-                                        <td> { tempCert.id} </td>
-                                        
+                                        <td> { tempCert.supplier} </td>
+                                        <td> { tempCert.type } </td>
                                         <td> { tempCert.validFrom }</td>
                                         <td> { tempCert.validTo }</td>
-                                        <td> { tempCert.type } </td>
                                     </tr>
                                 )  
                             )

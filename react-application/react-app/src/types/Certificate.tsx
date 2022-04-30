@@ -3,7 +3,7 @@ import ISupplierData from './Supplier';
 class CertificateData {
 
     id?: any | null;
-    supplier?: ISupplierData;
+    supplier?: string;
     validFrom?: string;
     validTo?: string;
     type?: string;
