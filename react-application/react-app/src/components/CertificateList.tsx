@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import CertificateService from "../services/CertificateService";
 import CertificateData from "../types/Certificate";
 import ISupplierData from "../types/Supplier";
@@ -21,6 +22,22 @@ const CertificateList: React.FC = () => {
         });
     };
 
+    // delete certificate
+    const deleteCertificate = (id: number) => {
+        CertificateService.remove(id)
+          .then((response: any) => {
+            console.log(response.data);
+            //navigate("/certificates");
+          })
+          .catch((e: Error) => {
+            console.log(e);
+          });
+    };
+
+    type onClick = () => (e: React.MouseEvent) => void;
+
+
+
     return(
         <div className="col-md-6">
             <h4>List suppliers</h4>
@@ -39,7 +56,14 @@ const CertificateList: React.FC = () => {
                         {
                             certificates.map(
                                 tempCert => (
+
                                     <tr key={tempCert.id}>
+                                        <td>
+                                            <button className="badge badge-danger mr-2" onClick={() => deleteCertificate(tempCert.id)}>
+                                                Delete
+                                            </button>
+
+                                        </td>
                                         <td> { tempCert.supplier} </td>
                                         <td> { tempCert.type } </td>
                                         <td> { tempCert.validFrom }</td>
@@ -56,3 +80,4 @@ const CertificateList: React.FC = () => {
 };
 
 export default CertificateList;
+

@@ -59,8 +59,6 @@ export default function AddCertificate() {
       .catch((e: Error) => {
         console.log(e);
       });
-
-
   };
 
   // handle input change
