@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import CertificateService from "../services/CertificateService";
 import CertificateData from "../types/Certificate";
 import ISupplierData from "../types/Supplier";
@@ -10,6 +10,9 @@ const CertificateList: React.FC = () => {
     useEffect(() => {
         retrieveCertificates();
     }, []);
+
+    const navigate = useNavigate();
+    const addNewCertificate = () => navigate('/newCertificate');
 
     const retrieveCertificates = () => {
         CertificateService.getAll()
@@ -27,7 +30,7 @@ const CertificateList: React.FC = () => {
         CertificateService.remove(id)
           .then((response: any) => {
             console.log(response.data);
-            //navigate("/certificates");
+            retrieveCertificates();
           })
           .catch((e: Error) => {
             console.log(e);
@@ -36,48 +39,58 @@ const CertificateList: React.FC = () => {
 
     type onClick = () => (e: React.MouseEvent) => void;
 
-
-
     return(
-        <div className="col-md-6">
-            <h4>List suppliers</h4>
-            <div className="row">
-                <table className="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th> Action </th>
-                            <th> Supplier name </th>
-                            <th> Type </th>
-                            <th> Valid from </th>
-                            <th> Valid to </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            certificates.map(
-                                tempCert => (
+        
+        <><h2>List certificates</h2>
+        <div className="col-md-10">
 
-                                    <tr key={tempCert.id}>
-                                        <td>
-                                            <button className="badge badge-danger mr-2" onClick={() => deleteCertificate(tempCert.id)}>
-                                                Delete
-                                            </button>
-
-                                        </td>
-                                        <td> { tempCert.supplier} </td>
-                                        <td> { tempCert.type } </td>
-                                        <td> { tempCert.validFrom }</td>
-                                        <td> { tempCert.validTo }</td>
-                                    </tr>
-                                )  
-                            )
-                        }
-                    </tbody>
-                </table>
+            <button type="button" className="btn btn-success" onClick={() => addNewCertificate()}>New certificate</button>
+            
+            <div>
+                <br></br>
             </div>
-        </div>
+
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Supplier</th>
+                        <th scope="col">Certificate type</th>
+                        <th scope="col">Valid from</th>
+                        <th scope="col">Valid to</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {certificates.map(
+                        tempCert => (
+
+                            <tr key={tempCert.id}>
+                                <td className="text-center align-middle">
+                                    <div className="dropdown">
+                                        <a href="/" type="button" className="btn" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <i className="fa fa-gear"></i>
+                                        </a>
+                                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a className="dropdown-item" href="#">Edit</a>
+                                            <a className="dropdown-item" onClick={() => deleteCertificate(tempCert.id)}>Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td> {tempCert.supplier} </td>
+                                <td> {tempCert.type} </td>
+                                <td> {tempCert.validFrom}</td>
+                                <td> {tempCert.validTo}</td>
+                            </tr>
+                        )
+                    )}
+
+                </tbody>
+            </table>
+        </div></>
+
     )
 };
 
 export default CertificateList;
-
