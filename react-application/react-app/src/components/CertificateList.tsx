@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { NavLink, useNavigate } from "react-router-dom";
 import CertificateService from "../services/CertificateService";
 import CertificateData from "../types/Certificate";
@@ -37,8 +38,6 @@ const CertificateList: React.FC = () => {
           });
     };
 
-    type onClick = () => (e: React.MouseEvent) => void;
-
     return(
         
         <><h2>List certificates</h2>
@@ -72,7 +71,11 @@ const CertificateList: React.FC = () => {
                                             <i className="fa fa-gear"></i>
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a className="dropdown-item" href="#">Edit</a>
+                                            <a className="dropdown-item text-decoration-none" >
+                                                <Link to={"/certificates/" + tempCert.id}>
+                                                    Edit
+                                                </Link>
+                                            </a>
                                             <a className="dropdown-item" onClick={() => deleteCertificate(tempCert.id)}>Delete</a>
                                         </div>
                                     </div>

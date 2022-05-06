@@ -102,9 +102,9 @@ export default function AddCertificate() {
                         <small id="certType">Certificate type</small>
                         <select name="type" id="certType" className="form-control" onChange={handleChange} value={state.type}>
                             <option selected>Select your option</option>
-                            <option value="CCA Certificate">CCA Certificate</option>
-                            <option value="ISO 9001">ISO 9001</option>
-                            <option value="1AA Cert">1AA Cert</option>
+                            <option value="CCC Certificate">CCC Certificate</option>
+                            <option value="Permission of printing">Permission of printing</option>
+                            <option value="OHSAS 180001">OHSAS 180001</option>
                             <option value="Other type placeholder">Other type placeholder</option>
                         </select>
                     </div>
@@ -125,13 +125,10 @@ export default function AddCertificate() {
                     </button>
 
                 </div>
-                
                 <div className="col-5">
-
                     <button className="btn btn-primary btn-sm" type="submit">Upload</button>
                     <div className="image-preview">
                     </div>
-
                 </div>  
             </div>
             
@@ -230,11 +227,9 @@ export default function AddCertificate() {
                         
                                                         </div>
                                                     </td>
-
                                                     <td> {tempSupplier.name} </td>
                                                     <td> {tempSupplier.index} </td>
                                                     <td> {tempSupplier.city}</td>
-                                                    
                                                 </tr>
                                                     )
                                                 )}
