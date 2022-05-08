@@ -13,7 +13,7 @@ import AddSupplier from './components/AddSupplier';
 import AddCertificate from './components/AddCertificate';
 import CertificateList from './components/CertificateList';
 import { NavLink } from 'react-router-dom';
-import UpdateCertificate from './components/UpdateCertificate';
+import CertificateComponent from './components/CertificateComponent';
 
 class App extends Component {
   render() {
@@ -66,7 +66,7 @@ class App extends Component {
             <Routes>
               <Route path="/newCertificate" element={<AddCertificate />} />
               <Route path="/certificates" element={<CertificateList />} />
-              <Route path="/certificates/:id" element={<UpdateCertificate /> } />
+              <Route path="/certificates/:id" element={<CertificateComponent /> } />
             </Routes>
           </main>
         </div></>

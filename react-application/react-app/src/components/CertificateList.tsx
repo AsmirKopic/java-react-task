@@ -14,6 +14,7 @@ const CertificateList: React.FC = () => {
 
     const navigate = useNavigate();
     const addNewCertificate = () => navigate('/newCertificate');
+    const editCertificate = (id: number) => navigate(`/certificates/${id}`);
 
     const retrieveCertificates = () => {
         CertificateService.getAll()
@@ -37,6 +38,12 @@ const CertificateList: React.FC = () => {
             console.log(e);
           });
     };
+
+    // update certificate 
+    function updateCertificateClicked(id: number){
+        console.log('update ' + id)
+        editCertificate(id);
+    }
 
     return(
         
@@ -71,11 +78,7 @@ const CertificateList: React.FC = () => {
                                             <i className="fa fa-gear"></i>
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a className="dropdown-item text-decoration-none" >
-                                                <Link to={"/certificates/" + tempCert.id}>
-                                                    Edit
-                                                </Link>
-                                            </a>
+                                            <a className="dropdown-item" onClick={() => updateCertificateClicked(tempCert.id)}>Edit</a>
                                             <a className="dropdown-item" onClick={() => deleteCertificate(tempCert.id)}>Delete</a>
                                         </div>
                                     </div>
@@ -92,7 +95,6 @@ const CertificateList: React.FC = () => {
                 </tbody>
             </table>
         </div></>
-
     )
 };
 
