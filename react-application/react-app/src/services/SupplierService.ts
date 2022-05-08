@@ -14,10 +14,15 @@ const create = (data: ISupplierData) => {
     return http.post<ISupplierData>("/v1/suppliers", data);
 }
 
+const findByName = (name: string) => {
+    return http.get<Array<ISupplierData>>(`v1/search?name=${name}`);
+  };
+
 const SupplierService = {
     getAll,
     get,
-    create
+    create,
+    findByName
 };
 
 export default SupplierService;

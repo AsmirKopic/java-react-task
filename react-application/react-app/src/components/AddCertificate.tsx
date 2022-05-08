@@ -18,13 +18,18 @@ export default function AddCertificate() {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const navigate = useNavigate();
   const goToListPage = () => navigate('/certificates');
-
+  const [searchSupplierName, setSearchSupplierName] = useState<string>("");
 
   // retrieve suppliers
   const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
   useEffect(() => {
       retrieveSuppliers();
   }, []);
+
+  const onChangeSearchSupplierName = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchSupplierName = e.target.value;
+    setSearchSupplierName(searchSupplierName);
+  }; 
 
   const retrieveSuppliers = () => {
       SupplierService.getAll()
@@ -34,6 +39,17 @@ export default function AddCertificate() {
       })
       .catch((e: Error) => {
           console.log(e);
+      });
+  };
+
+  const findByName = () => {
+    SupplierService.findByName(searchSupplierName)
+      .then((response: any) => {
+        setSuppliers(response.data);
+        console.log(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
       });
   };
 
@@ -177,22 +193,22 @@ export default function AddCertificate() {
                                     <form>
                                         <div className="row font-italic">
                                             <div className="col">
-                                                <small id="certType">Supplier name</small>
+                                                <small id="supplierName">Supplier name</small>
+                                                <input type="text" className="form-control" value={searchSupplierName} onChange={onChangeSearchSupplierName}/>
+                                            </div>
+                                            <div className="col">
+                                                <small id="supplierIndex">Supplier index</small>
                                                 <input type="text" className="form-control"/>
                                             </div>
                                             <div className="col">
-                                                <small id="certType">Supplier index</small>
-                                                <input type="text" className="form-control"/>
-                                            </div>
-                                            <div className="col">
-                                                <small id="certType">City</small>
+                                                <small id="supplierCity">City</small>
                                                 <input type="text" className="form-control"/>
                                             </div>
                                         </div>
                                     </form>
                                     <br></br>
                                     
-                                    <a href="#" className="btn btn-primary">Search</a>
+                                    <button className="btn btn-primary" onClick={findByName}>Search</button>
                                     
                                     <a href="#" className="btn btn-secondary">Reset</a>
                                 </div>

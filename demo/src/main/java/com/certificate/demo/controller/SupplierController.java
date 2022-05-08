@@ -36,5 +36,9 @@ public class SupplierController {
         return this.supplierRepository.save(supplier);
     }
 
+    @GetMapping("/search")
+    public List<Supplier> findByName(@RequestParam("name") String name) {
+        return this.supplierRepository.findByNameContainingAllIgnoreCase(name);
+    }
 
 }
