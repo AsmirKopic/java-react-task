@@ -4,6 +4,10 @@ import ISupplierData from '../types/Supplier';
 import CertificateData from '../types/Certificate';
 import CertificateService from "../services/CertificateService";
 import { Navigate, useNavigate } from "react-router-dom";
+import Person from "../types/Person";
+import PersonService from "../services/PersonService";
+
+
 
 export default function AddCertificate() {
 
@@ -12,13 +16,21 @@ export default function AddCertificate() {
     supplier: "",
     type: "",
     validFrom: "",
-    validTo: ""
+    validTo: "",
+    persons: []
   });
 
   const [submitted, setSubmitted] = useState<boolean>(false);
   const navigate = useNavigate();
   const goToListPage = () => navigate('/certificates');
+
+  // search supplier values
   const [searchSupplierName, setSearchSupplierName] = useState<string>("");
+  const [searchSupplierIndex, setSearchSupplierIndex] = useState<string>("");
+  const [searchSupplierCity, setSearchSupplierCity] = useState<string>("");
+
+  // search person values
+
 
   // retrieve suppliers
   const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
@@ -26,9 +38,26 @@ export default function AddCertificate() {
       retrieveSuppliers();
   }, []);
 
+  // retrieve persons
+  const [personList, setPersonList] = useState<Array<Person>>([]);
+  useEffect(() => {
+      retrievePersons();
+  }, []);
+
+
   const onChangeSearchSupplierName = (e: ChangeEvent<HTMLInputElement>) => {
     const searchSupplierName = e.target.value;
     setSearchSupplierName(searchSupplierName);
+  }; 
+
+  const onChangeSearchSupplierIndex = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchSupplierIndex = e.target.value;
+    setSearchSupplierIndex(searchSupplierIndex);
+  }; 
+
+  const onChangeSearchSupplierCity = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchSupplierCity = e.target.value;
+    setSearchSupplierCity(searchSupplierCity);
   }; 
 
   const retrieveSuppliers = () => {
@@ -42,8 +71,41 @@ export default function AddCertificate() {
       });
   };
 
+  const retrievePersons = () => {
+    PersonService.getAll()
+    .then((response: any) => {
+        setPersonList(response.data);
+        console.log(response.data);
+    })
+    .catch((e: Error) => {
+        console.log(e);
+    });
+};
+
   const findByName = () => {
     SupplierService.findByName(searchSupplierName)
+      .then((response: any) => {
+        setSuppliers(response.data);
+        console.log(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
+  const findByIndex = () => {
+    SupplierService.findByIndex(searchSupplierIndex)
+      .then((response: any) => {
+        setSuppliers(response.data);
+        console.log(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
+  const findByCity = () => {
+    SupplierService.findByCity(searchSupplierCity)
       .then((response: any) => {
         setSuppliers(response.data);
         console.log(response.data);
@@ -70,7 +132,8 @@ export default function AddCertificate() {
           supplier: response.data.supplier,
           type: response.data.type,
           validFrom: response.data.validFrom,
-          validTo: response.data.validTo
+          validTo: response.data.validTo,
+          persons: response.data.persons
         });
         setSubmitted(true);
         goToListPage();
@@ -82,6 +145,21 @@ export default function AddCertificate() {
       });
   };
 
+  // TODO
+  // need to fix this function
+  function onClickSearch() {
+
+    if(searchSupplierName != "") {
+        findByName();
+    }
+    if (searchSupplierIndex != "") {
+        findByIndex();
+    }
+    if(searchSupplierCity != "") {
+        findByCity();
+    }  
+  }
+
   // handle input change
 
   function handleChange(evt: any) {
@@ -92,7 +170,6 @@ export default function AddCertificate() {
       [evt.target.name]: value
     });
   }
-
 
   return (
      
@@ -151,6 +228,8 @@ export default function AddCertificate() {
             <br></br>
             <div className="col-10 border">
 
+            <div>
+                                
                 <table className="table">
                     <thead>
                     <tr>
@@ -160,15 +239,29 @@ export default function AddCertificate() {
                         <th>E-mail</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td>  </td>
-                        <td>Name placeholder</td>
-                        <td>DEPT </td>
-                        <td>test@email.com</td>
-                    </tr>
-                    </tbody>
-                </table>
+                        <tbody>
+                                            {personList.map(
+                                                (tempPerson) => (
+
+                                                <tr key={tempPerson.id}>
+                                                    <td className="text-center align-middle">
+                                                        <div>
+
+                                                            <input type="checkbox" name="person" id="person"  value={tempPerson.id} />
+                        
+                                                        </div>
+                                                    </td>
+                                                    <td> {tempPerson.name}, {tempPerson.firstName}, {tempPerson.plant} </td>
+                                                    <td> {tempPerson.department} </td>
+                                                    <td> {tempPerson.userId}</td>
+                                                </tr>
+                                                    )
+                                                )}
+
+                                
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
 
@@ -198,17 +291,17 @@ export default function AddCertificate() {
                                             </div>
                                             <div className="col">
                                                 <small id="supplierIndex">Supplier index</small>
-                                                <input type="text" className="form-control"/>
+                                                <input type="number" className="form-control" value={searchSupplierIndex} onChange={onChangeSearchSupplierIndex}/>
                                             </div>
                                             <div className="col">
                                                 <small id="supplierCity">City</small>
-                                                <input type="text" className="form-control"/>
+                                                <input type="text" className="form-control" value={searchSupplierCity} onChange={onChangeSearchSupplierCity}/>
                                             </div>
                                         </div>
                                     </form>
                                     <br></br>
                                     
-                                    <button className="btn btn-primary" onClick={findByName}>Search</button>
+                                    <button className="btn btn-primary" onClick={onClickSearch}>Search</button>
                                     
                                     <a href="#" className="btn btn-secondary">Reset</a>
                                 </div>

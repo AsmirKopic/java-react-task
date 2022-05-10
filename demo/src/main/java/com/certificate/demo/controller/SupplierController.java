@@ -41,4 +41,14 @@ public class SupplierController {
         return this.supplierRepository.findByNameContainingAllIgnoreCase(name);
     }
 
+    @GetMapping("/searchByIndex")
+    public List<Supplier> findByIndex(@RequestParam("index") Integer index) {
+        return this.supplierRepository.findByIndex(index);
+    }
+
+    @GetMapping("/searchByCity")
+    public List<Supplier> findByCity(@RequestParam("city") String city) {
+        return this.supplierRepository.findByCityContainingAllIgnoreCase(city);
+    }
+
 }

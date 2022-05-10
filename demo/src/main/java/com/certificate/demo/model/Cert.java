@@ -1,11 +1,15 @@
 package com.certificate.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +34,9 @@ public class Cert {
 
     @Column(name = "valid_to")
     private String validTo;
+
+    @OneToMany
+    List<Person> persons = new ArrayList<>();
 
     @Lob
     private byte[] data;

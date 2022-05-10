@@ -29,7 +29,7 @@ public class CertificateController {
     public ResponseEntity<Cert> getCertById(@PathVariable(value = "id") Integer certId) throws ResourceNotFoundException {
 
         Cert cert = certificateRepository.findById(certId)
-                .orElseThrow(() -> new ResourceNotFoundException("Supplier not found for this id :: " + certId));
+                .orElseThrow(() -> new ResourceNotFoundException("Cert not found for this id :: " + certId));
         return ResponseEntity.ok().body(cert);
     }
 

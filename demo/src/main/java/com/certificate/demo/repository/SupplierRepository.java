@@ -14,4 +14,8 @@ import java.util.List;
 public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
 
     List<Supplier> findByNameContainingAllIgnoreCase(@Param("name") String name);
+
+    List<Supplier> findByIndex(@Param("index") Integer index);
+
+    List<Supplier> findByCityContainingAllIgnoreCase(@Param("city") String city);
 }
