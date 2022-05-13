@@ -1,5 +1,6 @@
 package com.certificate.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +35,9 @@ public class Person {
     @Column(name = "department")
     private String department;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "plant")
     private String plant;
-
-//    @ManyToMany(mappedBy = "persons", fetch=FetchType.EAGER)
-//    List<Cert> certificates = new ArrayList<>();
 }

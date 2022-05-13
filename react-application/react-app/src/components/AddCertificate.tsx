@@ -4,10 +4,20 @@ import ISupplierData from '../types/Supplier';
 import CertificateData from '../types/Certificate';
 import CertificateService from "../services/CertificateService";
 import { Navigate, useNavigate } from "react-router-dom";
-import Person from "../types/Person";
+//import Person from "../types/Person";
 import PersonService from "../services/PersonService";
 
 
+interface Person {
+    
+    id: number;
+    name: string;
+    firstName: string;
+    userId: string;
+    department: string;
+    plant: string;
+    email: string;
+}
 
 export default function AddCertificate() {
 
@@ -20,6 +30,57 @@ export default function AddCertificate() {
     persons: []
   });
 
+// check persons code ..................
+
+  // retrieve persons who are displayed in the list
+  const [personList, setPersonList] = useState<Array<Person>>([]);
+  useEffect(() => {
+      retrievePersons();
+  }, []);
+
+  // The ids of users who will be added to the list
+  const [ids, setIds] = useState<Array<number>>([]);
+  const [checked, setChecked] = useState<Array<Person>>([]);
+
+  // This function will be triggered when a checkbox changes its state
+  const selectUser = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedId = parseInt(event.target.value);
+
+    // Check if "ids" contains "selectedIds"
+    // If true, this checkbox is already checked
+    // Otherwise, it is not selected yet
+    if (ids.includes(selectedId)) {
+      const newIds = ids.filter((id) => id !== selectedId);
+      setIds(newIds);
+    } else {
+      const newIds = [...ids];
+      newIds.push(selectedId);
+      setIds(newIds);
+    }
+  };
+
+  // This function will be called when the "(REMOVE) SELECT USERS" is clicked
+  const sselectParticipans = () => {
+    // Only keep the users whose ids are in the "ids" array
+    const selectedPersons: Person[] = personList.filter(
+      (person) => ids.includes(person.id)
+    );
+
+    setChecked(selectedPersons);
+  };
+
+
+
+
+// end of checkbox.....................
+
+
+
+
+
+
+
+
   const [submitted, setSubmitted] = useState<boolean>(false);
   const navigate = useNavigate();
   const goToListPage = () => navigate('/certificates');
@@ -29,19 +90,11 @@ export default function AddCertificate() {
   const [searchSupplierIndex, setSearchSupplierIndex] = useState<string>("");
   const [searchSupplierCity, setSearchSupplierCity] = useState<string>("");
 
-  // search person values
-
 
   // retrieve suppliers
   const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
   useEffect(() => {
       retrieveSuppliers();
-  }, []);
-
-  // retrieve persons
-  const [personList, setPersonList] = useState<Array<Person>>([]);
-  useEffect(() => {
-      retrievePersons();
   }, []);
 
 
@@ -122,7 +175,8 @@ export default function AddCertificate() {
       supplier: state.supplier,
       type: state.type,
       validFrom: state.validFrom,
-      validTo: state.validTo
+      validTo: state.validTo,
+      persons: checked
     };
 
     CertificateService.create(data)
@@ -134,7 +188,7 @@ export default function AddCertificate() {
           validFrom: response.data.validFrom,
           validTo: response.data.validTo,
           persons: response.data.persons
-        });
+        }); 
         setSubmitted(true);
         goToListPage();
     
@@ -160,7 +214,8 @@ export default function AddCertificate() {
     }  
   }
 
-  // handle input change
+  // handle input 
+
 
   function handleChange(evt: any) {
     const value =
@@ -170,6 +225,8 @@ export default function AddCertificate() {
       [evt.target.name]: value
     });
   }
+
+
 
   return (
      
@@ -226,6 +283,8 @@ export default function AddCertificate() {
             </div>
             
             <br></br>
+
+            
             <div className="col-10 border">
 
             <div>
@@ -246,9 +305,12 @@ export default function AddCertificate() {
                                                 <tr key={tempPerson.id}>
                                                     <td className="text-center align-middle">
                                                         <div>
-
-                                                            <input type="checkbox" name="person" id="person"  value={tempPerson.id} />
-                        
+                                                        <input
+                                                            type="checkbox"
+                                                            value={tempPerson.id}
+                                                            onChange={selectUser}
+                                                            checked={ids.includes(tempPerson.id) ? true : false}
+                                                        />
                                                         </div>
                                                     </td>
                                                     <td> {tempPerson.name}, {tempPerson.firstName}, {tempPerson.plant} </td>
@@ -261,6 +323,21 @@ export default function AddCertificate() {
                                 
                         </tbody>
                     </table>
+
+                    <button onClick={sselectParticipans}>
+                        SELECT USERS
+                    </button>
+
+                    
+
+
+                </div>
+
+                <div>
+                {checked.map((checkedItem) => {
+                            return <div key={checkedItem.id}>{checkedItem.firstName}, {checkedItem.name} check</div>;
+                        })}
+
                 </div>
 
             </div>

@@ -6,6 +6,18 @@ import CertificateService from "../services/CertificateService"
 import CertificateData from "../types/Certificate"
 import SupplierService from "../services/SupplierService"
 import ISupplierData from "../types/Supplier"
+import PersonService from "../services/PersonService"
+
+interface Person {
+    
+    id: number;
+    name: string;
+    firstName: string;
+    userId: string;
+    department: string;
+    plant: string;
+    email: string;
+}
 
 const CertificateComponent: React.FC = () => {
     
@@ -14,7 +26,8 @@ const CertificateComponent: React.FC = () => {
         supplier: "",
         type: "",
         validFrom: "",
-        validTo: ""
+        validTo: "",
+        persons: []
     }, setCurrentCertificate] = useState<CertificateData>();
 
     const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
@@ -42,6 +55,7 @@ const CertificateComponent: React.FC = () => {
         CertificateService.get(id)
         .then((response: any) => {
             setCurrentCertificate(response.data);
+            setChecked(response.data.persons);
 
             console.log(response.data);
 
@@ -50,6 +64,58 @@ const CertificateComponent: React.FC = () => {
             console.log(e);
         });
     };
+
+    // check persons code ..................
+
+  // retrieve persons who are displayed in the list
+  const [personList, setPersonList] = useState<Array<Person>>([]);
+  useEffect(() => {
+      retrievePersons();
+  }, []);
+
+  // The ids of users who will be added to the list
+  const [ids, setIds] = useState<Array<number>>([]);
+  const [checked, setChecked] = useState<Array<Person>>([]);
+
+  // This function will be triggered when a checkbox changes its state
+  const selectUser = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedId = parseInt(event.target.value);
+
+    // Check if "ids" contains "selectedIds"
+    // If true, this checkbox is already checked
+    // Otherwise, it is not selected yet
+    if (ids.includes(selectedId)) {
+      const newIds = ids.filter((id) => id !== selectedId);
+      setIds(newIds);
+    } else {
+      const newIds = [...ids];
+      newIds.push(selectedId);
+      setIds(newIds);
+    }
+  };
+
+  // This function will be called when the "SELECT USERS" is clicked
+  const sselectParticipans = () => {
+    // Only keep the users whose ids are in the "ids" array
+    const selectedPersons: Person[] = personList.filter(
+      (person) => ids.includes(person.id)
+    );
+
+    setChecked(selectedPersons);
+  };
+
+  const retrievePersons = () => {
+    PersonService.getAll()
+    .then((response: any) => {
+        setPersonList(response.data);
+        console.log(response.data);
+    })
+    .catch((e: Error) => {
+        console.log(e);
+    });
+};
+
+// end of checkbox.....................
 
     // handle input change
 
@@ -69,7 +135,8 @@ const CertificateComponent: React.FC = () => {
             supplier: currentCertificate.supplier,
             type: currentCertificate.type,
             validFrom: currentCertificate.validFrom,
-            validTo: currentCertificate.validTo
+            validTo: currentCertificate.validTo,
+            persons: currentCertificate.persons
         };
 
         CertificateService.update(id, data)
@@ -79,7 +146,8 @@ const CertificateComponent: React.FC = () => {
                 supplier: response.data.supplier,
                 type: response.data.type,
                 validFrom: response.data.validFrom,
-                validTo: response.data.validTo
+                validTo: response.data.validTo,
+                persons: response.data.persons
             });
 
             goToListPage();
@@ -95,7 +163,7 @@ const CertificateComponent: React.FC = () => {
         <main className="col bg-faded py-3">
 
         <div>
-           <h4>New Certificate</h4>
+           <h4>Edit Certificate</h4>
         </div>
    
         <div className="row fst-italic">
@@ -147,27 +215,61 @@ const CertificateComponent: React.FC = () => {
    <br></br>
    <div className="col-10 border">
 
+       <div>
        <table className="table">
-           <thead>
-           <tr>
-               <th>   </th>
-               <th>Name</th>
-               <th>Department</th>
-               <th>E-mail</th>
-           </tr>
-           </thead>
-           <tbody>
-           <tr>
-               <td>  </td>
-               <td>Name placeholder</td>
-               <td>DEPT </td>
-               <td>test@email.com</td>
-           </tr>
-           </tbody>
-       </table>
+                    <thead>
+                    <tr>
+                        <th>   </th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>E-mail</th>
+                    </tr>
+                    </thead>
+                        <tbody>
+                                            {personList.map(
+                                                (tempPerson) => (
 
-   </div>
+                                                <tr key={tempPerson.id}>
+                                                    <td className="text-center align-middle">
+                                                        <div>
+                                                        <input
+                                                            type="checkbox"
+                                                            value={tempPerson.id}
+                                                            onChange={selectUser}
+                                                            checked={ids.includes(tempPerson.id) ? true : false}
+                                                        />
+                                                        </div>
+                                                    </td>
+                                                    <td> {tempPerson.name}, {tempPerson.firstName}, {tempPerson.plant} </td>
+                                                    <td> {tempPerson.department} </td>
+                                                    <td> {tempPerson.userId}</td>
+                                                </tr>
+                                                    )
+                                                )}
 
+                                
+                        </tbody>
+                    </table>
+
+                    <button onClick={sselectParticipans}>
+                        SELECT USERS
+                    </button>
+
+                    
+
+
+                </div>
+
+                <div>
+                {checked.map((checkedItem) => {
+                            return <div key={checkedItem.id}>{checkedItem.firstName}, {checkedItem.name} check</div>;
+                        })}
+
+            </div>
+       </div>
+
+       
+   
    <div className="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
        <div className="modal-dialog modal-lg">

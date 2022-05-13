@@ -1,3 +1,4 @@
+import Person from './Person';
 import ISupplierData from './Supplier';
 
 class CertificateData {
@@ -7,6 +8,7 @@ class CertificateData {
     validFrom?: string;
     validTo?: string;
     type?: string;
+    persons?: Array<Person>;
     
 }
 
