@@ -1,4 +1,6 @@
+import { t } from "i18next";
 import React, { Fragment, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { NavLink, useNavigate } from "react-router-dom";
 import CertificateService from "../services/CertificateService";
@@ -45,12 +47,14 @@ const CertificateList: React.FC = () => {
         editCertificate(id);
     }
 
+    const { t } = useTranslation();
+
     return(
         
-        <><h2>List certificates</h2>
+        <><h2>{t('list_certificates')}</h2>
         <div className="col-md-10">
 
-            <button type="button" className="btn btn-success" onClick={() => addNewCertificate()}>New certificate</button>
+            <button type="button" className="btn btn-success" onClick={() => addNewCertificate()}>{t('new_certificate')}</button>
             
             <div>
                 <br></br>
@@ -60,10 +64,10 @@ const CertificateList: React.FC = () => {
                 <thead>
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col">Supplier</th>
-                        <th scope="col">Certificate type</th>
-                        <th scope="col">Valid from</th>
-                        <th scope="col">Valid to</th>
+                        <th scope="col">{t('supplier')}</th>
+                        <th scope="col">{t('certificate_type')}</th>
+                        <th scope="col">{t('valid_from')}</th>
+                        <th scope="col">{t('valid_to')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,8 +82,8 @@ const CertificateList: React.FC = () => {
                                             <i className="fa fa-gear"></i>
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a className="dropdown-item" onClick={() => updateCertificateClicked(tempCert.id)}>Edit</a>
-                                            <a className="dropdown-item" onClick={() => deleteCertificate(tempCert.id)}>Delete</a>
+                                            <a className="dropdown-item" onClick={() => updateCertificateClicked(tempCert.id)}>{t('edit')}</a>
+                                            <a className="dropdown-item" onClick={() => deleteCertificate(tempCert.id)}>{t('delete')}</a>
                                         </div>
                                     </div>
                                 </td>

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,20 +7,96 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
-import { Link, Route, Router, Routes } from 'react-router-dom';
-import SupplierList from './components/SupplierList';
-import AddSupplier from './components/AddSupplier';
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
+// import cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
+import classNames from 'classnames'
+import { NavLink, Route, Routes } from 'react-router-dom';
 import AddCertificate from './components/AddCertificate';
 import CertificateList from './components/CertificateList';
-import { NavLink } from 'react-router-dom';
 import CertificateComponent from './components/CertificateComponent';
+import { render } from 'react-dom';
 
-class App extends Component {
-  render() {
+// support languages collection
+const languages = [
+  {
+    code: 'de',
+    name: 'German',
+    country_code: 'de',
+  },
+  {
+    code: 'en',
+    name: 'English',
+    country_code: 'gb',
+  }
+]
+
+
+export default function App() {
+
+        // locales setup
+        const currentLanguageCode = 'en'
+        const currentLanguage = languages.find((l) => l.code === currentLanguageCode)
+        const { t } = useTranslation()
+    
+        const number_of_days = Math.floor(50)
+    
+        useEffect(() => {
+          console.log('Setting page stuff')
+          //document.body.dir = currentLanguage.dir || 'ltr'
+          document.title = t('app_title')
+        }, [currentLanguage, t])
+    
+
     return (
 
       <><nav className="navbar navbar-expand-lg  navbar-dark bg-info">
         <a className="navbar-brand" href="/">DCCS Tuzla</a>
+
+        <div className="justify-content-end">
+          <div className="align-items-center">
+          <li>
+                  <span className="dropdown-item-text">{t('language')}</span>
+                </li>
+            <div className="dropdown">
+              <button
+                className="btn btn-link dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+              </button>
+              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                
+                {languages.map(({ code, name, country_code }) => (
+                  <li key={country_code}>
+                    <a
+                      href="#"
+                      className={ classNames('dropdown-item', {
+                        
+                      })}
+                      onClick={() => {
+                        i18next.changeLanguage(code)
+                      }}
+                    >
+                      <span
+                        className={`${country_code} mx-2`}
+                      
+                      ></span>
+                      {name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+      </div>
+
       </nav><div className="row wrapper min-vh-100 flex-column flex-sm-row">
           <aside className="col-12 col-sm-2 p-0 flex-shrink-1">
             <nav className="navbar navbar-expand-sm navbar-light bg-light align-items-start flex-sm-column flex-row">
@@ -38,7 +114,7 @@ class App extends Component {
                 <li className="nav-item ml-2">
 
                   <a className="nav-link" data-toggle="dropdown" aria-expanded="false">
-                    <span><i className="fa fa-bars fa-fw"></i> Machine Learning <i
+                    <span><i className="fa fa-bars fa-fw"></i> {t('machine_learning')} <i
                       className="fa fa-angle-down ml-5"></i></span>
 
                     <div className='dropdown-item'>
@@ -72,7 +148,7 @@ class App extends Component {
         </div></>
     );
   }
-}
 
-export default App;
+
+
 

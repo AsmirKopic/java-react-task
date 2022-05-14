@@ -1,0 +1,32 @@
+{
+  "app_title": "Titre",
+  "language": "Langue",
+  "welcome_message": "Bienvenue",
+  "days_since_release": "ça fait {{number_of_days}} jours depuis la sortie de cette vidéo",
+  
+  "machine_learning": "Maschinelles Lernen",
+  "example": "Beispiel",
+  "list_certificates": "Zertifikate auflisten",
+  "new_certificate": "Neues Zertifikat",
+  "supplier": "Lieferant",
+  "select_option": "Wählen Sie Ihre Option",
+  "certificate_type": "Zertifikatstyp",
+  "valid_from": "Gültig ab",
+  "valid_to": "Gültig bis",
+  "edit": "Bearbeiten",
+  "delete": "Löschen",
+  "search_for_supplier": "Lieferant suchen",
+  "upload": "Hochladen",
+  "submit": "Absenden",
+  "personName": "Name",
+  "personDepartment": "Abteilung",
+  "select_participant": "Teilnehmer auswählen",
+  "search_criteria": "Suchkriterien",
+  "supplier_list": "Lieferantenliste",
+  "supplier_name": "Lieferantenname",
+  "supplier_index": "Lieferantenindex",
+  "city": "Stadt",
+  "search": "Suche",
+  "reset": "Zurücksetzen"
+
+}

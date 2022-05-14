@@ -6,6 +6,8 @@ import CertificateService from "../services/CertificateService";
 import { Navigate, useNavigate } from "react-router-dom";
 //import Person from "../types/Person";
 import PersonService from "../services/PersonService";
+import { t } from "i18next";
+import { useTranslation, withTranslation, WithTranslation } from 'react-i18next';
 
 
 interface Person {
@@ -68,17 +70,6 @@ export default function AddCertificate() {
 
     setChecked(selectedPersons);
   };
-
-
-
-
-// end of checkbox.....................
-
-
-
-
-
-
 
 
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -216,7 +207,6 @@ export default function AddCertificate() {
 
   // handle input 
 
-
   function handleChange(evt: any) {
     const value =
       evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
@@ -226,21 +216,21 @@ export default function AddCertificate() {
     });
   }
 
-
+  const { t } = useTranslation();
 
   return (
      
      <main className="col bg-faded py-3">
 
                  <div>
-                    <h4>New Certificate</h4>
+                    <h3> {t('new_certificate')} </h3>
                  </div>
             
             <div className="row fst-italic">
                 <div className="col-5">
                     
-                    <small>Supplier</small>
-                    <div className="input-group mb-3"><input placeholder="Search for supplier" value={state.supplier} type="text" className="form-control"/>
+                    <small>{t('supplier')}</small>
+                    <div className="input-group mb-3"><input placeholder={t('search_for_supplier')} value={state.supplier} type="text" className="form-control"/>
                         <div>
                             <button className="btn btn-outline-secondary" data-toggle="modal"
                                     data-target=".bd-example-modal-lg"><i className="fa fa-search"></i></button>
@@ -249,9 +239,9 @@ export default function AddCertificate() {
                     </div>
 
                     <div className="form-group">
-                        <small id="certType">Certificate type</small>
+                        <small id="certType">{t('certificate_type')} </small>
                         <select name="type" id="certType" className="form-control" onChange={handleChange} value={state.type}>
-                            <option selected>Select your option</option>
+                            <option selected>{t('select_option')} </option>
                             <option value="CCC Certificate">CCC Certificate</option>
                             <option value="Permission of printing">Permission of printing</option>
                             <option value="OHSAS 180001">OHSAS 180001</option>
@@ -260,23 +250,23 @@ export default function AddCertificate() {
                     </div>
 
                     <div className="form-group">
-                        <small>Valid from</small>
+                        <small>{t('valid_from')}</small>
                         <input type="date" className="form-control" id="validFrom" name="validFrom" value={state.validFrom} onChange={handleChange} placeholder="Click to select date"/>
                     </div>
 
                     <div className="form-group">
-                        <small>Valid to</small>
+                        <small>{t('valid_to')}</small>
                         <input type="date" name="validTo" value={state.validTo} onChange={handleChange} className="form-control" id="validTo" placeholder="Click to select date"/>
                     </div>
                     <br></br>
 
                     <button onClick={saveCertificate} className="btn btn-success">
-                             Submit
+                        {t('submit')}
                     </button>
 
                 </div>
                 <div className="col-5">
-                    <button className="btn btn-primary btn-sm" type="submit">Upload</button>
+                    <button className="btn btn-primary btn-sm" type="submit">{t('upload')}</button>
                     <div className="image-preview">
                     </div>
                 </div>  
@@ -293,8 +283,8 @@ export default function AddCertificate() {
                     <thead>
                     <tr>
                         <th>   </th>
-                        <th>Name</th>
-                        <th>Department</th>
+                        <th>{t('personName')}</th>
+                        <th>{t('personDepartment')}</th>
                         <th>E-mail</th>
                     </tr>
                     </thead>
@@ -325,7 +315,7 @@ export default function AddCertificate() {
                     </table>
 
                     <button onClick={sselectParticipans}>
-                        SELECT USERS
+                    {t('select_participant')}
                     </button>
 
                     
@@ -335,7 +325,7 @@ export default function AddCertificate() {
 
                 <div>
                 {checked.map((checkedItem) => {
-                            return <div key={checkedItem.id}>{checkedItem.firstName}, {checkedItem.name} check</div>;
+                            return <div key={checkedItem.id}>{checkedItem.firstName}, {checkedItem.name} </div>;
                         })}
 
                 </div>
@@ -347,7 +337,7 @@ export default function AddCertificate() {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header bg-light">
-                            <h5 className="modal-title" id="exampleModalLabel">Search for suppliers</h5>
+                            <h5 className="modal-title" id="exampleModalLabel">{t('search_for_supplier')}</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -356,37 +346,37 @@ export default function AddCertificate() {
 
                             <div className="card">
                                 <div className="card-header bg-info text-white">
-                                    <i className="fa fa-angle-down"></i> Search criteria
+                                    <i className="fa fa-angle-down"></i> {t('search_criteria')}
                                 </div>
                                 <div className="card-body">
 
                                     <form>
                                         <div className="row font-italic">
                                             <div className="col">
-                                                <small id="supplierName">Supplier name</small>
+                                                <small id="supplierName">{t('supplier_name')}</small>
                                                 <input type="text" className="form-control" value={searchSupplierName} onChange={onChangeSearchSupplierName}/>
                                             </div>
                                             <div className="col">
-                                                <small id="supplierIndex">Supplier index</small>
+                                                <small id="supplierIndex">{t('supplier_index')}</small>
                                                 <input type="number" className="form-control" value={searchSupplierIndex} onChange={onChangeSearchSupplierIndex}/>
                                             </div>
                                             <div className="col">
-                                                <small id="supplierCity">City</small>
+                                                <small id="supplierCity">{t('city')}</small>
                                                 <input type="text" className="form-control" value={searchSupplierCity} onChange={onChangeSearchSupplierCity}/>
                                             </div>
                                         </div>
                                     </form>
                                     <br></br>
                                     
-                                    <button className="btn btn-primary" onClick={onClickSearch}>Search</button>
+                                    <button className="btn btn-primary" onClick={onClickSearch}>{t('search')}</button>
                                     
-                                    <a href="#" className="btn btn-secondary">Reset</a>
+                                    <a href="#" className="btn btn-secondary">{t('reset')}</a>
                                 </div>
                             </div>
 
                             <div className="card">
                                 <div className="card-header bg-info text-white">
-                                    <i className="fa fa-angle-down"></i> Supplier list
+                                    <i className="fa fa-angle-down"></i> {t('supplier_list')}
                                 </div>
                                 <div className="card-body">
 
@@ -395,9 +385,9 @@ export default function AddCertificate() {
                                             <thead>
                                             <tr>
                                                 <th></th>
-                                                <th> Supplier name</th>
-                                                <th> Supplier index</th>
-                                                <th> Supplier city</th>
+                                                <th> {t('supplier_name')}</th>
+                                                <th> {t('supplier_index')}</th>
+                                                <th> {t('city')}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -426,7 +416,7 @@ export default function AddCertificate() {
                                         
                                     </div>
                                     
-                                    <button className="btn btn-success" onClick={() => setState} data-dismiss="modal">Submit</button>
+                                    <button className="btn btn-success" onClick={() => setState} data-dismiss="modal">{t('submit')}</button>
                                     <button className="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>
 
@@ -440,6 +430,7 @@ export default function AddCertificate() {
         
   );
 }
+
 
 
 

@@ -1,0 +1,32 @@
+{
+  "app_title": "Title",
+  "language": "Language",
+  "welcome_message": "Welcome",
+  "days_since_release": "it's been {{number_of_days}} days since this video was released",
+  
+  "machine_learning": "Machine Learning",
+  "example": "Example",
+  "list_certificates": "List certificates",
+  "new_certificate": "New certificate",
+  "supplier": "Supplier",
+  "select_option": "Select your option",
+  "certificate_type": "Certificate type",
+  "valid_from": "Valid from",
+  "valid_to": "Valid to",
+  "edit": "Edit",
+  "delete": "Delete",
+  "search_for_supplier": "Search for supplier",
+  "upload": "Upload",
+  "submit": "Submit",
+  "personName": "Name",
+  "personDepartment": "Department",
+  "select_participant": "Select participant",
+  "search_criteria": "Search criteria",
+  "supplier_list": "Supplier list",
+  "supplier_name": "Supplier name",
+  "supplier_index": "Supplier index",
+  "city": "City",
+  "search": "Search",
+  "reset": "Reset"
+
+}
