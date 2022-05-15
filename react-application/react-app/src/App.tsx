@@ -35,16 +35,13 @@ const languages = [
   }
 ]
 
-
 export default function App() {
 
         // locales setup
         const currentLanguageCode = 'en'
         const currentLanguage = languages.find((l) => l.code === currentLanguageCode)
         const { t } = useTranslation()
-    
-        const number_of_days = Math.floor(50)
-    
+        
         useEffect(() => {
           console.log('Setting page stuff')
           //document.body.dir = currentLanguage.dir || 'ltr'
@@ -54,48 +51,30 @@ export default function App() {
 
     return (
 
-      <><nav className="navbar navbar-expand-lg  navbar-dark bg-info">
+      <><nav className="navbar navbar-expand-lg  navbar-dark bg-info justify-content-between">
         <a className="navbar-brand" href="/">DCCS Tuzla</a>
 
-        <div className="justify-content-end">
-          <div className="align-items-center">
-          <li>
-                  <span className="dropdown-item-text">{t('language')}</span>
-                </li>
-            <div className="dropdown">
-              <button
-                className="btn btn-link dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                
-                {languages.map(({ code, name, country_code }) => (
-                  <li key={country_code}>
-                    <a
-                      href="#"
-                      className={ classNames('dropdown-item', {
-                        
-                      })}
-                      onClick={() => {
-                        i18next.changeLanguage(code)
-                      }}
-                    >
-                      <span
-                        className={`${country_code} mx-2`}
-                      
-                      ></span>
-                      {name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-      </div>
+    
+
+      <div className="nav-item dropdown mx-5">
+            <a className="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language: </a>
+                            <li className="dropdown-menu" aria-labelledby="dropdown09">
+                                
+                            {languages.map(({ code, name, country_code }) => (
+
+                                <a href="#" className={ classNames('dropdown-item', {
+                                })}
+                                onClick={() => {
+                                  i18next.changeLanguage(code)
+                                }}
+                                >
+                                  {name}
+                                </a>
+
+                            ))}  
+                            </li>
+                        </div>                
+
 
       </nav><div className="row wrapper min-vh-100 flex-column flex-sm-row">
           <aside className="col-12 col-sm-2 p-0 flex-shrink-1">

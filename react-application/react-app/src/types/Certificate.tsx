@@ -9,6 +9,7 @@ class CertificateData {
     validTo?: string;
     type?: string;
     persons?: Array<Person>;
+    data?: any | null;
     
 }
 
