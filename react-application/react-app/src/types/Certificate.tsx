@@ -1,3 +1,5 @@
+import ICertComment from './Comment';
+import Comment from './Comment';
 import Person from './Person';
 import ISupplierData from './Supplier';
 
@@ -9,6 +11,7 @@ class CertificateData {
     validTo?: string;
     type?: string;
     persons?: Array<Person>;
+    comments?: Array<ICertComment>;
     data?: any | null;
     
 }

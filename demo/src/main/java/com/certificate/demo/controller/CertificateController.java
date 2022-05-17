@@ -2,7 +2,9 @@ package com.certificate.demo.controller;
 
 import com.certificate.demo.exception.ResourceNotFoundException;
 import com.certificate.demo.model.Cert;
+import com.certificate.demo.model.Comment;
 import com.certificate.demo.repository.CertificateRepository;
+import com.certificate.demo.repository.CommentRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,14 @@ import java.util.Map;
 @RequestMapping("/api")
 public class CertificateController {
 
-    @Autowired
     CertificateRepository certificateRepository;
+    CommentRepository commentRepository;
+
+    @Autowired
+    public CertificateController(CertificateRepository certificateRepository, CommentRepository commentRepository) {
+        this.certificateRepository = certificateRepository;
+        this.commentRepository = commentRepository;
+    }
 
     @GetMapping("/certificates")
     public List<Cert> getAllCertificates(){
@@ -48,6 +56,7 @@ public class CertificateController {
         certificate.setType(certDetails.getType());
         certificate.setValidFrom(certDetails.getValidFrom());
         certificate.setValidTo(certDetails.getValidTo());
+        certificate.setPersons(certDetails.getPersons());
         //certificate.setData(certDetails.getData());
 
         Cert updatedCertificate = certificateRepository.save(certificate);
@@ -65,6 +74,18 @@ public class CertificateController {
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
+
+//    @GetMapping("/certificates/{id}/comments")
+//    public List<Comment> getAllComments(@PathVariable Integer id){
+//        return commentRepository.findAll(); //double check
+//    }
+//
+//    @PostMapping("/certificates/{id}/comments")
+//    public Comment saveComment(@PathVariable Integer id, @RequestBody Comment comment){
+//        return this.commentRepository.save(comment);
+//    }
+
+
 
 
 }

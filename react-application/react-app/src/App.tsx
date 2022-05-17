@@ -73,10 +73,14 @@ export default function App() {
 
                             ))}  
                             </li>
-                        </div>                
+                        </div>     
+
+                        <div title='USER NAME'>USER NAME</div>           
 
 
-      </nav><div className="row wrapper min-vh-100 flex-column flex-sm-row">
+      </nav>
+      
+      <div className="row wrapper min-vh-100 flex-column flex-sm-row">
           <aside className="col-12 col-sm-2 p-0 flex-shrink-1">
             <nav className="navbar navbar-expand-sm navbar-light bg-light align-items-start flex-sm-column flex-row">
 

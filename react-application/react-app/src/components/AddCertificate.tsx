@@ -8,6 +8,8 @@ import { BrowserRouter, Navigate, useNavigate } from "react-router-dom";
 import PersonService from "../services/PersonService";
 import { t } from "i18next";
 import { useTranslation, withTranslation, WithTranslation } from 'react-i18next';
+import Comment from "../types/Comment";
+import ICertComment from "../types/Comment";
 
 
 interface Person {
@@ -30,7 +32,9 @@ export default function AddCertificate() {
     validFrom: "",
     validTo: "",
     persons: [],
+    comments: [],
     image: null
+
   });
 
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -41,6 +45,8 @@ export default function AddCertificate() {
   const [searchSupplierName, setSearchSupplierName] = useState<string>("");
   const [searchSupplierIndex, setSearchSupplierIndex] = useState<string>("");
   const [searchSupplierCity, setSearchSupplierCity] = useState<string>("");
+
+ 
 
   // retrieve suppliers
   const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
@@ -86,8 +92,17 @@ export default function AddCertificate() {
     });
 };
 
-// Add and remove participan functions 
+  // handle input for certificate form
+  function handleChange(evt: any) {
+    const value =
+      evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
+    setState({
+      ...state,
+      [evt.target.name]: value
+    });
+  }
 
+  // Add and remove participan functions 
   // retrieve persons who are displayed in the list
   const [personList, setPersonList] = useState<Array<Person>>([]);
   useEffect(() => {
@@ -120,9 +135,7 @@ export default function AddCertificate() {
     // Only keep the users whose ids are in the "ids" array
     const selectedPersons: Person[] = personList.filter(
       (person) => ids.includes(person.id)
-    ); <div className="btn btn-primary btn-sm">
-                      <input type="file" onChange={fileSelectHandler}  />
-                    </div>
+    ); 
 
     setChecked(selectedPersons);
   };
@@ -142,7 +155,46 @@ export default function AddCertificate() {
     setChecked(newChecked);
   };
 
+  // Add comments functions
 
+  // comment show form
+  const [showForm, setShowForm] = useState(false);
+
+  const showCommentForm = () => {
+     setShowForm(!showForm);
+  }
+
+  const [commentList, setCommentList] = useState<Array<ICertComment>>([]);
+  const [saveComments, setSaveComments] = useState<Array<ICertComment>>([]);
+
+  const [comment, setComment] = useState<ICertComment>({
+    user: '',
+    comment: ''
+  });
+
+  // function for input comment fields
+  const handleCommentChange = (event: any) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setComment(values => ({...values, [name]: value}))
+  }
+
+  // Submit comment button function
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    console.log(comment);
+    commentList.push(comment);
+    console.log(commentList);
+    setCommentList(commentList);
+    setSaveComments(commentList);
+
+    setComment({
+      user: '',
+      comment: ''
+    });
+  }
+
+  // search supplier 
   const findByName = () => {
     SupplierService.findByName(searchSupplierName)
       .then((response: any) => {
@@ -177,7 +229,6 @@ export default function AddCertificate() {
   };
 
   // save certificate
-
   const saveCertificate = () => {
     var data = {
       supplier: state.supplier,
@@ -185,7 +236,8 @@ export default function AddCertificate() {
       validFrom: state.validFrom,
       validTo: state.validTo,
       persons: checked,
-      image: imageUrl
+      image: imageUrl,
+      comments: saveComments
     };
 
     CertificateService.create(data)
@@ -197,9 +249,10 @@ export default function AddCertificate() {
           validFrom: response.data.validFrom,
           validTo: response.data.validTo,
           persons: response.data.persons,
-          image: response.data.data
+          image: response.data.image,
+          comments: response.data.comments
 
-        }); 
+        });  
         setSubmitted(true);
         goToListPage();
     
@@ -225,16 +278,6 @@ export default function AddCertificate() {
     }  
   }
 
-  // handle input 
-
-  function handleChange(evt: any) {
-    const value =
-      evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
-    setState({
-      ...state,
-      [evt.target.name]: value
-    });
-  }
 
   // upload file functions
 
@@ -599,25 +642,50 @@ export default function AddCertificate() {
                 
             </div>
 
+            {/* COMMENT FORM SECTION */}
 
-            <div className="col-10">
-            <button className="btn btn-primary float-end">New comment</button>
-            </div>
-            
 
-            <div className="col-10 border mt-5">
-            
-              <div className="m-3">
-                UserName placeholder
+            <div className="col-10 mt-5">
+              <div className="text-right">
+                <button className="btn btn-primary " onClick={showCommentForm}>New comment</button>
+
               </div>
-
-              <textarea className="form-control my-3" id="exampleFormControlTextarea1" ></textarea>
-              <button className="btn btn-danger my-3">Comment</button>
-
+            </div>
+            <div>
+              {commentList.map(
+                (tempComment) => (
+                  <><p><span className="font-weight-bold">User: </span> {tempComment.user}</p>
+                  <p><span className="font-weight-bold">Comment: </span> {tempComment.comment}</p></>
+                )
+              )}
             </div>
             
-        </main>
+            {showForm && (
+              <div className="col-10 border mt-5">
+              
+                <div className="m-3">
+                <label>User:
+                      <input 
+                        type="text" 
+                        name="user" 
+                        value={comment.user} 
+                        onChange={handleCommentChange}
+                      />
+                      </label>
+                </div>
 
+                <textarea className="form-control my-3" 
+                          name="comment" 
+                          value={comment.comment || ""} 
+                          onChange={handleCommentChange} >
+
+                </textarea>
+                <button type="submit" className="btn btn-danger my-3" onClick={handleSubmit}>Comment</button>
+                
+              </div>
+            )}
+
+        </main>
   );
 }
 

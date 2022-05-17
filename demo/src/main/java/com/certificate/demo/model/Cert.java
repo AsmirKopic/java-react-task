@@ -47,6 +47,10 @@ public class Cert {
     )
     private Set<Person> persons = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cc_fid", referencedColumnName = "id")
+    List <Comment> comments = new ArrayList<>();
+
     @Lob
     private byte[] data;
 
