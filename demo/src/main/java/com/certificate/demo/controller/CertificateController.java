@@ -75,17 +75,4 @@ public class CertificateController {
         return ResponseEntity.ok(response);
     }
 
-//    @GetMapping("/certificates/{id}/comments")
-//    public List<Comment> getAllComments(@PathVariable Integer id){
-//        return commentRepository.findAll(); //double check
-//    }
-//
-//    @PostMapping("/certificates/{id}/comments")
-//    public Comment saveComment(@PathVariable Integer id, @RequestBody Comment comment){
-//        return this.commentRepository.save(comment);
-//    }
-
-
-
-
 }

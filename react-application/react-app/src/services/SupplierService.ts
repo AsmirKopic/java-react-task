@@ -26,6 +26,10 @@ const findByCity = (city: string) => {
     return http.get<Array<ISupplierData>>(`v1/searchByCity?city=${city}`);
 };
 
+const searchQuery = (name: string, city: string) => {
+    return http.get<Array<ISupplierData>>(`v1/search?name=${name}&city=${city}`);
+}
+
 
 const SupplierService = {
     getAll,
@@ -33,7 +37,8 @@ const SupplierService = {
     create,
     findByName,
     findByIndex,
-    findByCity
+    findByCity,
+    searchQuery
 };
 
 export default SupplierService;

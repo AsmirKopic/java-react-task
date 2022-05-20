@@ -1,7 +1,7 @@
 interface ICertComment {
     id?: any | null;
-    user?: string;
-    comment?: string;
+    userName?: string;
+    commentText?: string;
 }
 
 export default ICertComment;

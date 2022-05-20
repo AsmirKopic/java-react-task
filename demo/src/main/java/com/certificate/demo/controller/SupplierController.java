@@ -37,7 +37,7 @@ public class SupplierController {
     }
 
     @GetMapping("/search")
-    public List<Supplier> findByName(@RequestParam("name") String name) {
+    public List<Supplier> findByNameContainingAllIgnoreCase(@RequestParam("name") String name) {
         return this.supplierRepository.findByNameContainingAllIgnoreCase(name);
     }
 

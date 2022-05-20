@@ -8,7 +8,7 @@ const getAll = () => {
 
 const get = (id: any) => {
     return http.get<Person>(`/persons/${id}`)
-}
+};
 
 const PersonService = {
     getAll,
