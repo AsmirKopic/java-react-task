@@ -26,11 +26,11 @@ const findByCity = (city: string) => {
     return http.get<Array<ISupplierData>>(`v1/searchByCity?city=${city}`);
 };
 
-const searchQuery = (name: string, city: string) => {
-    return http.get<Array<ISupplierData>>(`v1/search?name=${name}&city=${city}`);
+const searchQuery = (name: string, index: number, city: string) => {
+    return http.get<Array<ISupplierData>>(`v1/searchSuppliers?name=${name}&index=${index}&city=${city}`); 
 }
 
-
+ 
 const SupplierService = {
     getAll,
     get,

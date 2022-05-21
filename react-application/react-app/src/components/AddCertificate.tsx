@@ -43,7 +43,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
 
   // search supplier values
   const [searchSupplierName, setSearchSupplierName] = useState<string>("");
-  const [searchSupplierIndex, setSearchSupplierIndex] = useState<string>("");
+  const [searchSupplierIndex, setSearchSupplierIndex] = useState<any>("");
   const [searchSupplierCity, setSearchSupplierCity] = useState<string>("");
 
   // retrieve suppliers
@@ -137,7 +137,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
     setChecked(selectedPersons);
   };
 
-  // remove participant
+  // Remove participant
   const removeParticipant = (e: number) => {
 
     const newIds = [...ids];
@@ -153,7 +153,6 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   };
 
   // Add comments functions
-
   // comment show form
   const [showForm, setShowForm] = useState(false);
 
@@ -194,51 +193,25 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
     });
   }
 
-  // search supplier 
-  const findByName = () => {
-    SupplierService.findByName(searchSupplierName)
-      .then((response: any) => {
-        setSuppliers(response.data);
-        console.log(response.data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  };
-
-  const findByIndex = () => {
-    SupplierService.findByIndex(searchSupplierIndex)
-      .then((response: any) => {
-        setSuppliers(response.data);
-        console.log(response.data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  };
-
-  const findByCity = () => {
-    SupplierService.findByCity(searchSupplierCity)
-      .then((response: any) => {
-        setSuppliers(response.data);
-        console.log(response.data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  };
-
-  // Supplier query search test
+  // Search supplier 
+  // Supplier query search
   const supplierQuerySearch = () => {
-    SupplierService.searchQuery(searchSupplierName, searchSupplierCity)
+    SupplierService.searchQuery(searchSupplierName, searchSupplierIndex, searchSupplierCity)
       .then((response: any) => {
         setSuppliers(response.data);
+
+        console.log(searchSupplierName, searchSupplierCity, searchSupplierIndex); 
         console.log(response.data);
+
       })
       .catch((e: Error) => {
         console.log(e);
       });
   };
+
+  // reset search filter fields
+  const resetSupplierQuerySearch = () => {  
+  }
 
   // save certificate
   const saveCertificate = () => {
@@ -275,21 +248,6 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
       });
   };
 
-  // TODO
-  // need to fix this function
-  function onClickSearch() {
-
-    if (searchSupplierName != "") {
-      findByName();
-    }
-    if (searchSupplierIndex != "") {
-      findByIndex();
-    }
-    if (searchSupplierCity != "") {
-      findByCity();
-    }
-  }
-
   // upload file functions
 
   const [file, setFile] = useState();
@@ -319,7 +277,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
         <div className="col-5">
 
           <small>{t('supplier')}</small>
-          <div className="input-group mb-3"><input placeholder={t('search_for_supplier')} value={state.supplier} type="text" className="form-control" />
+          <div className="input-group mb-3"><input placeholder={t('search_for_supplier')} value={state.supplier} type="text" className="form-control" required/>
             <div>
               <button className="btn btn-outline-secondary" data-toggle="modal"
                 data-target=".bd-supplier-modal-lg"><i className="fa fa-search"></i></button>
@@ -329,7 +287,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
 
           <div className="form-group">
             <small id="certType">{t('certificate_type')} </small>
-            <select name="type" id="certType" className="form-control" onChange={handleChange} value={state.type}>
+            <select name="type" id="certType" className="form-control" onChange={handleChange} value={state.type} required>
               <option selected>{t('select_option')} </option>
               <option value="CCC Certificate">CCC Certificate</option>
               <option value="Permission of printing">Permission of printing</option>
@@ -340,22 +298,17 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
 
           <div className="form-group">
             <small>{t('valid_from')}</small>
-            <input type="date" className="form-control" id="validFrom" name="validFrom" value={state.validFrom} onChange={handleChange} placeholder="Click to select date" />
+            <input type="date" className="form-control" id="validFrom" name="validFrom" value={state.validFrom} onChange={handleChange} placeholder="Click to select date" required/>
           </div>
 
           <div className="form-group">
             <small>{t('valid_to')}</small>
-            <input type="date" name="validTo" value={state.validTo} onChange={handleChange} className="form-control" id="validTo" placeholder="Click to select date" />
+            <input type="date" name="validTo" value={state.validTo} onChange={handleChange} className="form-control" id="validTo" placeholder="Click to select date" required/>
           </div>
           <br></br>
 
-
         </div>
         <div className="col-5">
-
-        
-
-
 
           <label className="btn btn-primary btn-sm">
             Upload <input type="file" onChange={fileSelectHandler} hidden/>
@@ -458,7 +411,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
 
                   <button className="btn btn-primary" onClick={supplierQuerySearch}>{t('search')}</button>
 
-                  <a href="#" className="btn btn-secondary">{t('reset')}</a>
+                  <a href="#" className="btn btn-secondary" onClick={() => resetSupplierQuerySearch}>{t('reset')}</a>
                 </div>
               </div>
 
@@ -561,7 +514,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                   </form>
                   <br></br>
 
-                  <button className="btn btn-primary" onClick={onClickSearch}>{t('search')}</button>
+                  <button className="btn btn-primary" onClick={supplierQuerySearch}>{t('search')}</button>
 
                   <a href="#" className="btn btn-secondary">{t('reset')}</a>
                 </div>
