@@ -46,12 +46,20 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   const [searchSupplierIndex, setSearchSupplierIndex] = useState<any>("");
   const [searchSupplierCity, setSearchSupplierCity] = useState<string>("");
 
+  // search persons values
+  const [searchPersonName, setSearchPersonName] = useState<string>("");
+  const [searchPersonFirstName, setSearchPersonFirstName] = useState<any>("");
+  const [searchPersonUserId, setSearchUserId] = useState<string>("");
+  const [searchPersonDepartment, setSearchPersonDepartment] = useState<string>(""); 
+  const [searchPersonPlant, setSearchPersonPlant] = useState<string>("");  
+
   // retrieve suppliers
   const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
   useEffect(() => {
     retrieveSuppliers();
   }, []);
 
+  // OnChange set input values for Supplier search
   const onChangeSearchSupplierName = (e: ChangeEvent<HTMLInputElement>) => {
     const searchSupplierName = e.target.value;
     setSearchSupplierName(searchSupplierName);
@@ -65,6 +73,32 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   const onChangeSearchSupplierCity = (e: ChangeEvent<HTMLInputElement>) => {
     const searchSupplierCity = e.target.value;
     setSearchSupplierCity(searchSupplierCity);
+  };
+
+  // OnChange set input valus for Person search
+  const onChangePersonName = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchPersonName = e.target.value;
+    setSearchPersonDepartment(searchPersonName);
+  };
+
+  const onChangePersonFirstName = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchPersonFirstName = e.target.value;
+    setSearchPersonFirstName(searchPersonFirstName);
+  };
+
+  const onChangePersonUserId = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchPersonUserId = e.target.value;
+    setSearchUserId(searchPersonUserId);
+  };
+
+  const onChangePersonDepartment = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchPersonDepartment = e.target.value;
+    setSearchPersonDepartment(searchPersonDepartment);
+  };
+
+  const onChangePersonPlant = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchPersonPlant = e.target.value;
+    setSearchPersonPlant(searchPersonPlant);
   };
 
   const retrieveSuppliers = () => {
@@ -209,8 +243,30 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
       });
   };
 
-  // reset search filter fields
+  // reset Supplier search filter fields
   const resetSupplierQuerySearch = () => {  
+  }
+
+  // Search Persons 
+  // Persons query search
+  const personSearch = () => {
+    PersonService.searchPersons(searchPersonName, 
+                                searchPersonFirstName, 
+                                searchPersonUserId,
+                                searchPersonDepartment,
+                                searchPersonPlant)
+      .then((response: any) => {
+        setPersonList(response.data); 
+        console.log(response.data);
+
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
+  // reset Supplier search filter fields
+  const resetPersonQuerySearch = () => {  
   }
 
   // save certificate
@@ -488,33 +544,33 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                   <form>
                     <div className="row font-italic">
                       <div className="col">
-                        <small id="supplierName">{t('person_name')}</small>
-                        <input type="text" className="form-control" />
+                        <small id="personName">{t('person_name')}</small>
+                        <input type="text" className="form-control" value={searchPersonName} onChange={onChangePersonName}/>
                       </div>
                       <div className="col">
-                        <small id="supplierIndex">{t('person_firstName')}</small>
-                        <input type="number" className="form-control" value={searchSupplierIndex} onChange={onChangeSearchSupplierIndex} />
+                        <small id="personFirstName">{t('person_firstName')}</small>
+                        <input type="text" className="form-control" value={searchPersonFirstName} onChange={onChangePersonFirstName} />
                       </div>
                       <div className="col">
-                        <small id="supplierCity">{t('userID')}</small>
-                        <input type="text" className="form-control" value={searchSupplierCity} onChange={onChangeSearchSupplierCity} />
+                        <small id="userId">{t('userID')}</small>
+                        <input type="text" className="form-control" value={searchPersonUserId} onChange={onChangePersonUserId} />
                       </div>
                     </div>
                     <div className="row font-italic">
                       <div className="col-4">
-                        <small id="supplierName">{t('department')}</small>
-                        <input type="text" className="form-control" />
+                        <small id="personDepartment">{t('department')}</small>
+                        <input type="text" className="form-control" value={searchPersonDepartment} onChange={onChangePersonDepartment}/>
                       </div>
                       <div className="col-4">
-                        <small id="supplierIndex">{t('plant')}</small>
-                        <input type="number" className="form-control" value={searchSupplierIndex} onChange={onChangeSearchSupplierIndex} />
+                        <small id="personPlant">{t('plant')}</small>
+                        <input type="text" className="form-control" value={searchPersonPlant} onChange={onChangePersonPlant} />
                       </div>
 
                     </div>
                   </form>
                   <br></br>
 
-                  <button className="btn btn-primary" onClick={supplierQuerySearch}>{t('search')}</button>
+                  <button className="btn btn-primary" onClick={personSearch}>{t('search')}</button>
 
                   <a href="#" className="btn btn-secondary">{t('reset')}</a>
                 </div>
