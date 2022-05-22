@@ -79,10 +79,10 @@ export default function App() {
 
       <div className="form-inline">
         <div className="nav-item dropdown mx-3">
-          <a className="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language: </a>
+          <a className="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{t('language')}: </a>
           <li className="dropdown-menu" aria-labelledby="dropdown09">
 
-            {languages.map(({ code, name, country_code }) => (
+            {languages.map(({ code, name }) => (
 
               <a href="#" className={classNames('dropdown-item', {
               })}
@@ -97,7 +97,7 @@ export default function App() {
         </div>
 
         <div className="nav-item dropdown mx-3">
-          <a className="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User: </a>
+          <a className="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{t('user')}: </a>
           <li className="dropdown-menu" aria-labelledby="dropdown09">
 
             {userList.map((user) => (

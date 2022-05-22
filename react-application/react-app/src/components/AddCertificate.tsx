@@ -10,6 +10,7 @@ import { useTranslation, withTranslation, WithTranslation } from 'react-i18next'
 import Comment from "../types/Comment";
 import ICertComment from "../types/Comment";
 import App from "../App"
+import classNames from "classnames";
 
 
 interface Person {
@@ -78,7 +79,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   // OnChange set input valus for Person search
   const onChangePersonName = (e: ChangeEvent<HTMLInputElement>) => {
     const searchPersonName = e.target.value;
-    setSearchPersonDepartment(searchPersonName);
+    setSearchPersonName(searchPersonName);
   };
 
   const onChangePersonFirstName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -244,7 +245,10 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   };
 
   // reset Supplier search filter fields
-  const resetSupplierQuerySearch = () => {  
+  const resetSupplierQuerySearch = () => {
+    setSearchSupplierName(() => "");
+    setSearchSupplierCity(() => "");
+    setSearchSupplierIndex (() => "");
   }
 
   // Search Persons 
@@ -266,7 +270,12 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   };
 
   // reset Supplier search filter fields
-  const resetPersonQuerySearch = () => {  
+  const resetPersonQuerySearch = () => { 
+    setSearchPersonName(() => "");
+    setSearchPersonFirstName(() => "");
+    setSearchPersonDepartment(() => "");
+    setSearchPersonPlant(() => "");
+    setSearchUserId    (() => "");
   }
 
   // save certificate
@@ -378,11 +387,11 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
 
       <br></br>
 
-      <small>Assigned ussers</small>
+      <small>{t('assigned_users')}</small>
       <div className="input-group mb-3 ">
         <div>
           <button className="btn btn-outline-secondary" data-toggle="modal"
-            data-target=".bd-persons-modal-lg"><i className="fa fa-search"></i> Add participant</button>
+            data-target=".bd-persons-modal-lg"><i className="fa fa-search"></i> {t('add_participant')}</button>
         </div>
       </div>
 
@@ -423,10 +432,6 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
       </div>
       <br></br>
 
-      <button onClick={saveCertificate} className="btn btn-success mt-3">
-        {t('submit')}
-      </button>
-
       {/*** SUPPLIER MODAL FORM  ***/}
 
       <div className="modal fade bd-supplier-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -447,7 +452,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                 </div>
                 <div className="card-body">
 
-                  <form>
+                  <form id="supplier-search-form">
                     <div className="row font-italic">
                       <div className="col">
                         <small id="supplierName">{t('supplier_name')}</small>
@@ -466,8 +471,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                   <br></br>
 
                   <button className="btn btn-primary" onClick={supplierQuerySearch}>{t('search')}</button>
-
-                  <a href="#" className="btn btn-secondary" onClick={() => resetSupplierQuerySearch}>{t('reset')}</a>
+                  <button className="btn btn-secondary mx-1" onClick={() => resetSupplierQuerySearch()} >{t('reset')}</button>
                 </div>
               </div>
 
@@ -513,7 +517,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                   </div>
 
                   <button className="btn btn-success" onClick={() => setState} data-dismiss="modal">{t('submit')}</button>
-                  <button className="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button className="btn btn-secondary mx-1" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>
@@ -528,7 +532,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header bg-light">
-              <h5 className="modal-title" id="exampleModalLabel">Search for persons</h5>
+              <h5 className="modal-title" id="exampleModalLabel">{t('search_for_persons')}</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -544,11 +548,11 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                   <form>
                     <div className="row font-italic">
                       <div className="col">
-                        <small id="personName">{t('person_name')}</small>
+                        <small id="personName">{t('name')}</small>
                         <input type="text" className="form-control" value={searchPersonName} onChange={onChangePersonName}/>
                       </div>
                       <div className="col">
-                        <small id="personFirstName">{t('person_firstName')}</small>
+                        <small id="personFirstName">{t('first_name')}</small>
                         <input type="text" className="form-control" value={searchPersonFirstName} onChange={onChangePersonFirstName} />
                       </div>
                       <div className="col">
@@ -571,8 +575,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                   <br></br>
 
                   <button className="btn btn-primary" onClick={personSearch}>{t('search')}</button>
-
-                  <a href="#" className="btn btn-secondary">{t('reset')}</a>
+                  <button className="btn btn-secondary mx-1" onClick={() => resetPersonQuerySearch()}>{t('reset')}</button>
                 </div>
               </div>
 
@@ -626,7 +629,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
 
                   <button className="btn btn-success" onClick={sselectParticipans}
                     data-dismiss="modal">{t('select')}</button>
-                  <button className="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button className="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
 
               </div>
@@ -641,15 +644,15 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
 
       <div className="col-10 mt-5">
         <div className="text-right">
-          <button className="btn btn-primary " onClick={showCommentForm}>New comment</button>
+          <button className="btn btn-primary " onClick={showCommentForm}>{t('new_comment')}</button>
 
         </div>
       </div>
       <div>
         {commentList.map(
           (tempComment) => (
-            <><span className="font-weight-bold">User: </span> {tempComment.userName} 
-              <p><span className="font-weight-bold">Comment: </span> {tempComment.commentText}</p></> 
+            <><span className="font-weight-bold">{t('user')}: </span> {tempComment.userName} 
+              <p><span className="font-weight-bold">{t('comment')}: </span> {tempComment.commentText}</p></> 
           )
         )}
       </div>
@@ -658,7 +661,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
         <div className="col-10 border mt-5">
 
           <div className="m-3">
-            <label>User: {selectedUser}
+            <label>{t('user')}: {selectedUser}
 
             </label>
           </div>
@@ -670,10 +673,15 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
             placeholder="Comment here." >
 
           </textarea>
-          <button type="submit" className="btn btn-danger my-3" onClick={handleSubmit}>Comment</button>
+          <button type="submit" className="btn btn-danger my-3" onClick={handleSubmit}>{t('comment')}</button>
 
         </div>
       )}
+
+      {/* Submit certificate button */}
+      <button onClick={saveCertificate} className="btn btn-success mt-3">
+        {t('submit')}
+      </button>
 
     </main>
   );

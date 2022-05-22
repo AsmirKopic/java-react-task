@@ -27,6 +27,17 @@
   "supplier_index": "Lieferantenindex",
   "city": "Stadt",
   "search": "Suche",
-  "reset": "Zurücksetzen"
-
+  "reset": "Zurücksetzen",
+  "search_for_persons": "Suche nach Personen",
+  "person_list": "Personenliste",
+  "name": "Name",
+  "first_name": "Vorname",
+  "UserID": "Benutzer-ID",
+  "department": "Abteilung",
+  "plant": "Pflanze",
+  "new_comment": "Neuer Kommentar",
+  "user": "Benutzer",
+  "comment": "Kommentar",
+  "add_participant": "Teilnehmer hinzufügen",
+  "assigned_users": "Zugewiesene Benutzer"
 }

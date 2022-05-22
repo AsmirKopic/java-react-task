@@ -27,6 +27,18 @@
   "supplier_index": "Supplier index",
   "city": "City",
   "search": "Search",
-  "reset": "Reset"
+  "reset": "Reset",
+  "search_for_persons": "Search for persons",
+  "person_list": "Person List",
+  "name": "Name",
+  "first_name": "First name",
+  "UserID": "User ID",
+  "department": "Department",
+  "plant": "Plant",
+  "new_comment": "New comment",
+  "user": "User",
+  "comment": "Comment",
+  "add_participant": "Add participant",
+  "assigned_users": "Assigned users"
 
 }
