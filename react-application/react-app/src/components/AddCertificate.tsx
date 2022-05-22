@@ -51,8 +51,8 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   const [searchPersonName, setSearchPersonName] = useState<string>("");
   const [searchPersonFirstName, setSearchPersonFirstName] = useState<any>("");
   const [searchPersonUserId, setSearchUserId] = useState<string>("");
-  const [searchPersonDepartment, setSearchPersonDepartment] = useState<string>(""); 
-  const [searchPersonPlant, setSearchPersonPlant] = useState<string>("");  
+  const [searchPersonDepartment, setSearchPersonDepartment] = useState<string>("");
+  const [searchPersonPlant, setSearchPersonPlant] = useState<string>("");
 
   // retrieve suppliers
   const [suppliers, setSuppliers] = useState<Array<ISupplierData>>([]);
@@ -235,7 +235,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
       .then((response: any) => {
         setSuppliers(response.data);
 
-        console.log(searchSupplierName, searchSupplierCity, searchSupplierIndex); 
+        console.log(searchSupplierName, searchSupplierCity, searchSupplierIndex);
         console.log(response.data);
 
       })
@@ -248,19 +248,19 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   const resetSupplierQuerySearch = () => {
     setSearchSupplierName(() => "");
     setSearchSupplierCity(() => "");
-    setSearchSupplierIndex (() => "");
+    setSearchSupplierIndex(() => "");
   }
 
   // Search Persons 
   // Persons query search
   const personSearch = () => {
-    PersonService.searchPersons(searchPersonName, 
-                                searchPersonFirstName, 
-                                searchPersonUserId,
-                                searchPersonDepartment,
-                                searchPersonPlant)
+    PersonService.searchPersons(searchPersonName,
+      searchPersonFirstName,
+      searchPersonUserId,
+      searchPersonDepartment,
+      searchPersonPlant)
       .then((response: any) => {
-        setPersonList(response.data); 
+        setPersonList(response.data);
         console.log(response.data);
 
       })
@@ -270,12 +270,12 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
   };
 
   // reset Supplier search filter fields
-  const resetPersonQuerySearch = () => { 
+  const resetPersonQuerySearch = () => {
     setSearchPersonName(() => "");
     setSearchPersonFirstName(() => "");
     setSearchPersonDepartment(() => "");
     setSearchPersonPlant(() => "");
-    setSearchUserId    (() => "");
+    setSearchUserId(() => "");
   }
 
   // save certificate
@@ -342,7 +342,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
         <div className="col-5">
 
           <small>{t('supplier')}</small>
-          <div className="input-group mb-3"><input placeholder={t('search_for_supplier')} value={state.supplier} type="text" className="form-control" required/>
+          <div className="input-group mb-3"><input placeholder={t('search_for_supplier')} value={state.supplier} type="text" className="form-control" required />
             <div>
               <button className="btn btn-outline-secondary" data-toggle="modal"
                 data-target=".bd-supplier-modal-lg"><i className="fa fa-search"></i></button>
@@ -363,12 +363,12 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
 
           <div className="form-group">
             <small>{t('valid_from')}</small>
-            <input type="date" className="form-control" id="validFrom" name="validFrom" value={state.validFrom} onChange={handleChange} placeholder="Click to select date" required/>
+            <input type="date" className="form-control" id="validFrom" name="validFrom" value={state.validFrom} onChange={handleChange} placeholder="Click to select date" required />
           </div>
 
           <div className="form-group">
             <small>{t('valid_to')}</small>
-            <input type="date" name="validTo" value={state.validTo} onChange={handleChange} className="form-control" id="validTo" placeholder="Click to select date" required/>
+            <input type="date" name="validTo" value={state.validTo} onChange={handleChange} className="form-control" id="validTo" placeholder="Click to select date" required />
           </div>
           <br></br>
 
@@ -376,11 +376,11 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
         <div className="col-5">
 
           <label className="btn btn-primary btn-sm">
-            Upload <input type="file" onChange={fileSelectHandler} hidden/>
+            Upload <input type="file" onChange={fileSelectHandler} hidden />
           </label>
 
           <div className="image-preview">
-            <img src={imageUrl} width="100%" height="100%"/>
+            <img src={imageUrl} width="100%" height="100%" />
           </div>
         </div>
       </div>
@@ -549,7 +549,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                     <div className="row font-italic">
                       <div className="col">
                         <small id="personName">{t('name')}</small>
-                        <input type="text" className="form-control" value={searchPersonName} onChange={onChangePersonName}/>
+                        <input type="text" className="form-control" value={searchPersonName} onChange={onChangePersonName} />
                       </div>
                       <div className="col">
                         <small id="personFirstName">{t('first_name')}</small>
@@ -563,7 +563,7 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
                     <div className="row font-italic">
                       <div className="col-4">
                         <small id="personDepartment">{t('department')}</small>
-                        <input type="text" className="form-control" value={searchPersonDepartment} onChange={onChangePersonDepartment}/>
+                        <input type="text" className="form-control" value={searchPersonDepartment} onChange={onChangePersonDepartment} />
                       </div>
                       <div className="col-4">
                         <small id="personPlant">{t('plant')}</small>
@@ -651,8 +651,8 @@ export default function AddCertificate({ selectedUser }: { selectedUser: string 
       <div>
         {commentList.map(
           (tempComment) => (
-            <><span className="font-weight-bold">{t('user')}: </span> {tempComment.userName} 
-              <p><span className="font-weight-bold">{t('comment')}: </span> {tempComment.commentText}</p></> 
+            <><span className="font-weight-bold">{t('user')}: </span> {tempComment.userName}
+              <p><span className="font-weight-bold">{t('comment')}: </span> {tempComment.commentText}</p></>
           )
         )}
       </div>

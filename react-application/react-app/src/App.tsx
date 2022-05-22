@@ -71,7 +71,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<User>();
   // setCurrentUser(userList.);
   const [currentUserSelected, setCurrentUserSelected] = useState<string>('User 1');
-  
+
   return (
 
     <><nav className="navbar navbar-expand-lg  navbar-dark bg-info justify-content-between">
@@ -165,7 +165,7 @@ export default function App() {
           <Routes>
             <Route path="/newCertificate" element={<AddCertificate selectedUser={currentUserSelected} />} />
             <Route path="/certificates" element={<CertificateList />} />
-            <Route path="/certificates/:id" element={<CertificateComponent />} />
+            <Route path="/certificates/:id" element={<CertificateComponent selectedUser={currentUserSelected} />} />
           </Routes>
         </main>
       </div></>
