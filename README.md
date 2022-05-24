@@ -5,8 +5,7 @@ Management/CRUD application built using Spring Boot and React-typescript with Po
 **DEMO**
 - Deployed to Heroku Cloud:
 
-http/Heroku
-
+https://cert-management-frontend.herokuapp.com/
 
 **Note:** It is running on a free dyno, so the services go to sleep if not in use.
        For the first time, it may take some time to respond.
