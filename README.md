@@ -27,3 +27,4 @@ https://cert-management-frontend.herokuapp.com/
 - **PostgreSQL:** Stores new Certificate information.
 - **Heroku Cloud Platform:** Deploying microservices on Heroku both Back-end and Front-end supported with PostgreSQL-heroku addon.
 
+Note: This is my first React/Typscript/Postgres application made for learning/testing purposes only and requires a lot of refinement and optimization of the components to be in accordance with the principles of clean code, React file component structure, pages etc.
